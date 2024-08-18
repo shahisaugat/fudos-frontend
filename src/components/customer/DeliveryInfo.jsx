@@ -8,7 +8,7 @@ const iconSize = '40px';
 
 const DeliveryInfo = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-around items-center space-y-12 md:space-y-0 md:space-x-6 p-2">
+    <div className="flex flex-col md:flex-row justify-around items-center space-y-12 md:space-y-0 md:space-x-6 p-2 mt-2"> {/* Added mt-8 */}
       <div className="flex flex-col items-center text-center">
         <img src={timeIcon} alt="clock icon" style={{ width: iconSize, height: iconSize }} className="mb-2" />
         <div className="flex flex-col items-center text-center">

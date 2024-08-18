@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FormModal from "./FormModal";
 import { toast } from "react-toastify";
-
+ 
 const Products = () => {
   const [productData, setProductData] = useState({
     productName: "",
@@ -14,11 +14,11 @@ const Products = () => {
   const [productList, setProductList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
-
+ 
   useEffect(() => {
     fetchProducts();
   }, []);
-
+ 
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/products/get");
@@ -28,26 +28,26 @@ const Products = () => {
       console.error("Failed to fetch products:", error);
     }
   };
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
   };
-
+ 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     const formData = new FormData();
     formData.append(
       "product",
       new Blob([JSON.stringify(productData)], { type: "application/json" })
     );
     formData.append("image", image);
-
+ 
     try {
       if (editProductId) {
         await axios.put(
@@ -73,16 +73,16 @@ const Products = () => {
     } catch (error) {
       toast.error("There was an error creating/updating the product.");
       console.error("Error creating/updating product:", error);
-
+ 
     }
   };
-
+ 
   const openEditModal = (product) => {
     setProductData(product);
     setIsModalOpen(true);
     setEditProductId(product.productId);
   };
-
+ 
   const deleteProduct = async (productId) => {
     try {
       await axios.delete(`http://localhost:8080/api/products/delete/${productId}`);
@@ -91,7 +91,7 @@ const Products = () => {
       console.error("Error deleting product:", error);
     }
   };
-
+ 
   return (
     <div className="container mx-auto p-4">
       <button
@@ -122,7 +122,7 @@ const Products = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
-
+ 
           <div className="form-group">
             <label htmlFor="details" className="block text-gray-700">
               Details:
@@ -137,7 +137,7 @@ const Products = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
-
+ 
           <div className="form-group">
             <label htmlFor="price" className="block text-gray-700">
               Price:
@@ -152,7 +152,7 @@ const Products = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
-
+ 
           <div className="form-group">
             <label htmlFor="file" className="block text-gray-700">
               Upload File:
@@ -176,9 +176,9 @@ const Products = () => {
           </div>
         </form>
       </FormModal>
-
+ 
       {message && <p className="text-red-500 mt-4">{message}</p>}
-
+ 
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">All Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -232,5 +232,5 @@ const Products = () => {
     </div>
   );
 };
-
+ 
 export default Products;

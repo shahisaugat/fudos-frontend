@@ -1,48 +1,46 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import  { useProductContext } from '../components/shared/ProductContext';
+import { useProductContext } from '../components/shared/ProductContext';
 import { IoSearch } from "react-icons/io5";
+import errorImage from '../assets/icons/404-error.png';
 
-
-const MenuPage = ({limit}) => {
+const MenuPage = ({ limit }) => {
   const { mostPopularItems } = useProductContext();
   const [searchQuery, setSearchQuery] = useState('');
 
-  if (!mostPopularItems || mostPopularItems.length === 0) {
-    return <p>Loading...</p>; 
-  }
-
-  const filteredItems = mostPopularItems.filter(item =>
+  // Handle case where data is not loaded or is empty
+  const isDataLoaded = mostPopularItems && mostPopularItems.length > 0;
+  const filteredItems = isDataLoaded ? mostPopularItems.filter(item =>
     item.productName.toLowerCase().includes(searchQuery.toLowerCase())
-  ).slice(0,limit) ;
+  ).slice(0, limit) : [];
 
   return (
     <div>
       <section className="container mx-auto py-12">
-
-
-
-        <div className="flex justify-center mb-8">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-2 border rounded-lg"
-          />
-          <div className='relative right-6 top-3'>
-            <IoSearch className='text-[#EB5757] text-xl'/>
+        <div className="flex justify-end mb-8">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search products (e.g., pizza, burger)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="p-3 pl-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB5757] transition duration-300"
+            />
+            <IoSearch className='absolute left-3 text-[#EB5757] text-xl' />
           </div>
         </div>
 
         <div className='flex justify-center'>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {filteredItems.length > 0 ? (
+            {isDataLoaded && filteredItems.length > 0 ? (
               filteredItems.map(item => (
                 <ProductCard key={item.productId} item={item} />
               ))
             ) : (
-              <p>No products found</p>
+              <div className="flex flex-col items-center justify-center min-h-[300px]">
+                <img src={errorImage} alt="404 Error" className="w-64 h-auto mb-4" />
+                <p className="text-lg font-semibold">No products found</p>
+              </div>
             )}
           </div>
         </div>
@@ -58,8 +56,7 @@ const ProductCard = ({ item }) => (
     </div>
     <div className="p-4">
       <h3 className="text-lg font-semibold mb-2">{item.productName}</h3>
-      <p className="text-sm text-gray-600 mb-4">{item.detail}</p>
-      <p className='text-sm text-[#EB5757] mb-4'>{item.price}</p>
+      <p className='text-sm text-[#EB5757] mb-4'>NRs. {item.price}</p>
       <Link to={`/product/${item.productId}`} className="text-blue-600 font-semibold hover:underline">Read More</Link>
     </div>
   </div>

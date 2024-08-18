@@ -29,8 +29,8 @@ function Sidebar() {
               <MdChair className="text-2xl text-red-500" />
             </div>
             <div className="hidden md:block w-32 h-auto font-bold mx-6 ">
-              <span className="text-red-500">FURNI</span>
-              <span className="text-black">TURE</span>
+              <span className="text-red-500">FUDOS</span>
+              <span className="text-black">FOOD DELIVERY</span>
             </div>
           </div>
           <div className="flex flex-col gap-10 text-md sm:text-sm lg:text-lg">

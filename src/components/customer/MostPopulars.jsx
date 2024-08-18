@@ -4,7 +4,7 @@ import MenuPage from '../../pages/MenuPage';
 const MostPopulars = () => {
   return (
    <div className='my-10'>
-      <h2 className="text-3xl font-semibold text-center mb-8">Most Popular</h2>
+      <h2 className="text-3xl font-semibold text-center mt-12">Most Popular</h2>
       <MenuPage  limit={8}/>
    </div>
     

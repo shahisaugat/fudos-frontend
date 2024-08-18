@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
-const PaymentModal = ({ isOpen, onClose, cartTotal, cartItems }) => {
+ 
+const PaymentModal = ({ isOpen, onClose, cartItems }) => {
   if (!isOpen) return null;
-
-  console.log(cartItems); // Debugging
-
-  const { subtotal, shipping, tax, total } = cartTotal;
-
+ 
+  // Calculate subtotal, shipping, and total for the selected items
+  const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const shipping = 5; // Example shipping fee, you can make this dynamic
+  const tax = 0; // Example tax, adjust as needed
+  const total = subtotal + shipping + tax;
+ 
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -16,29 +18,29 @@ const PaymentModal = ({ isOpen, onClose, cartTotal, cartItems }) => {
     email: '',
     paymentMethod: 'Credit Card', // Default payment method
   });
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
-
+ 
     if (!token) {
       alert('Please log in to proceed.');
       return;
     }
-
+ 
     const orderData = {
       customer: { id: userId },
       cartItems: cartItems.map(item => ({
-        productId: item.productId, // Assuming productId is the identifier in your cartItems
+        productId: item.productId,
         quantity: item.quantity
-      })), 
+      })),
       subtotal: subtotal,
       shipping: shipping,
       tax: tax,
@@ -49,24 +51,20 @@ const PaymentModal = ({ isOpen, onClose, cartTotal, cartItems }) => {
       email: formData.email,
       paymentMethod: formData.paymentMethod
     };
-
-    console.log(orderData); // Debugging
-
+ 
     try {
       const response = await axios.post('http://localhost:8080/api/orders', orderData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('Order placed successfully!', response.data);
       toast.success('Order placed successfully!');
       onClose();
     } catch (error) {
-      console.error('Error placing order:', error);
       toast.error('There was an error placing your order.');
     }
   };
-
+ 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center z-50">
       <div className="relative bg-white p-4 md:p-6 rounded-lg w-full max-w-lg mx-4 my-8 max-h-[90vh] overflow-y-auto">
@@ -131,5 +129,5 @@ const PaymentModal = ({ isOpen, onClose, cartTotal, cartItems }) => {
     </div>
   );
 };
-
+ 
 export default PaymentModal;
