@@ -9,7 +9,7 @@ const Testimonial = () => {
       </div>
       <div className="max-w-md text-center md:text-left">
         <h3 className="text-sm font-semibold uppercase text-[#EB5757]">What They Say</h3>
-        <h2 className="text-4xl lg:text-5xl font-bold mt-2">What Our Customers Say About Us</h2>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-2">What Our Customers Say About Us</h2>
         <p className="mt-4 text-sm lg:text-lg text-muted-foreground">
           “Fudo is the best. Besides the many and delicious meals, the service is also very good, especially in the very fast delivery. I highly recommend Fudo to you”.
         </p>

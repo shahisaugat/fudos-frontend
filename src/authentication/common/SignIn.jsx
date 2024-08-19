@@ -83,7 +83,7 @@ const SignIn = () => {
           />
         </div>
         <div className="md:w-1/2 p-8">
-          <h2 className="text-2xl font-semibold mb-6 text-center">Sign In to Electrix</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center">Sign In to Fudos</h2>
           <form className="space-y-4" onSubmit={handleSignIn}>
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">

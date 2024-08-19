@@ -17,18 +17,20 @@ const MenuPage = ({ limit }) => {
   return (
     <div>
       <section className="container mx-auto py-12">
-        <div className="flex justify-end mb-8">
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              placeholder="Search products (e.g., pizza, burger)..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="p-3 pl-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB5757] transition duration-300"
-            />
-            <IoSearch className='absolute left-3 text-[#EB5757] text-xl' />
+        {isDataLoaded && (
+          <div className="flex justify-end mb-8">
+            <div className="relative flex items-center w-full max-w-xs">
+              <input
+                type="text"
+                placeholder="Search products (e.g., pizza, burger)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="p-3 pl-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB5757] transition duration-300 w-full"
+              />
+              <IoSearch className='absolute left-3 text-[#EB5757] text-xl' />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className='flex justify-center'>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -50,7 +52,7 @@ const MenuPage = ({ limit }) => {
 };
 
 const ProductCard = ({ item }) => (
-  <div className="bg-white rounded-lg shadow-md overflow-hidden w-[260px]">
+  <div className="bg-white rounded-lg shadow-md overflow-hidden w-[260px] transform transition duration-300 hover:scale-105 hover:shadow-lg">
     <div className='m-3 rounded-lg'>
       <img src={`http://localhost:8080/api/products/image/${item.productId}`} alt={item.productName} className="w-full h-40 object-cover object-center rounded-lg" />
     </div>
@@ -61,5 +63,6 @@ const ProductCard = ({ item }) => (
     </div>
   </div>
 );
+
 
 export default MenuPage;
